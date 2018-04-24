@@ -28,6 +28,7 @@ public class DatabaseHelper implements DatabaseManager {
                 output = output + columnName + " ";
             }
             fw.write(output);
+            fw.write("\r\n");
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -40,8 +41,25 @@ public class DatabaseHelper implements DatabaseManager {
     }
 
     @Override
-    public void insertQuery(String tableName) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void insertQuery(String tableName, String... columnsName) {
+        FileWriter fw = null;
+        String output = "";
+        try {
+            fw = new FileWriter(tableName, true);
+            for (String columnName : columnsName) {
+                output = output + columnName + " ";
+            }
+            fw.append(output);
+            fw.append("\r\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fw.close();
+            } catch (IOException ex) {
+                Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     @Override

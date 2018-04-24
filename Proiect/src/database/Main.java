@@ -5,7 +5,6 @@ package database;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author crs
@@ -17,7 +16,10 @@ public class Main {
      */
     public static void main(String[] args) {
         DatabaseHelper databaseHelper = new DatabaseHelper();
-        databaseHelper.createTable("students.txt", "nume","prenume","nota");
+        //databaseHelper.createTable("students.txt", "nume","prenume","nota");
+        databaseHelper.insertQuery("students.txt", "Ion", "Vasile", "10");
+        databaseHelper.insertQuery("students.txt", "HEllo", "Hello", "null");
+
     }
-    
+
 }

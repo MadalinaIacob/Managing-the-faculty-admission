@@ -13,7 +13,7 @@ public interface DatabaseManager {
 
     public void createTable(String tableName, String... columnsName);
 
-    public void insertQuery(String tableName);
+    public void insertQuery(String tableName, String... columnsName);
 
     public void deleteQuery(String tableName);
 
