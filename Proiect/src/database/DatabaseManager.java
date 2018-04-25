@@ -5,6 +5,8 @@
  */
 package database;
 
+import java.util.List;
+
 /**
  *
  * @author crs
@@ -15,10 +17,12 @@ public interface DatabaseManager {
 
     public void insertQuery(String tableName, String... columnsName);
 
-    public void deleteQuery(String tableName);
+    public void deleteQuery(String tableName, String columnName, String columnValue);
 
-    public void selectQuery(String tableName);
+    public List<String> selectQuery(String tableName, String columnName);
 
-    public void updateQuery(String tableName);
+    public List<String> selectWhereQuery(String tableName, String columnName, String condition, String value);
+
+    public void updateQuery(String tableName,  String columnName, String columnValue, String... columnsName);
 
 }

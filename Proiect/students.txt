@@ -1,4 +1,9 @@
-nume prenume nota 
-Ion Vasile 10 
-Ion Vasile 10 
-HEllo Hello null 
+nume-prenume-nota-
+Ion-Vasile-10-
+Maria-Maria-5-
+Ion-Vasile-10-
+Maria-Maria-5-
+MAria-Maria-7-
+Ion-Vasile-10-
+Maria-Maria-5-
+Maria-Maria-5-
