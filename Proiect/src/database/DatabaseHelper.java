@@ -8,6 +8,7 @@ package database;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,6 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  *
@@ -267,5 +276,25 @@ public class DatabaseHelper implements DatabaseManager {
         }
         inputFile.delete();
         boolean successful = tempFile.renameTo(new File(tableName));
+    }
+
+    public void downloadPdf() throws Exception {
+        String TEXT = "students.txt";
+        String DEST = "text2pdf.pdf";
+        String text = new String(Files.readAllBytes(Paths.get(TEXT)), StandardCharsets.UTF_8);
+
+        PdfWriter writer = new PdfWriter(DEST);
+        // Creating a PdfDocument       
+        PdfDocument pdfDoc = new PdfDocument(writer);
+        // Adding a new page 
+        pdfDoc.addNewPage();
+        // Creating a Document        
+        Document document = new Document(pdfDoc);
+        Paragraph paragraph1 = new Paragraph(text);
+        document.add(paragraph1);
+
+        // Closing the document    
+        document.close();
+        System.out.println("PDF Created");
     }
 }

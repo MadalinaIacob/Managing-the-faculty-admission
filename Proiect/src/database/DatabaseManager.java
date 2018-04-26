@@ -24,5 +24,5 @@ public interface DatabaseManager {
     public List<String> selectWhereQuery(String tableName, String columnName, String condition, String value);
 
     public void updateQuery(String tableName,  String columnName, String columnValue, String... columnsName);
-
+   
 }
