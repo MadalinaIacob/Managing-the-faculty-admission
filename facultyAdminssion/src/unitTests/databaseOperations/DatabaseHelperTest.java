@@ -1,5 +1,6 @@
 package unitTests.databaseOperations;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
@@ -14,6 +15,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.jupiter.api.Test;
 
 import databaseOperations.DatabaseHelper;
@@ -21,16 +24,18 @@ import databaseOperations.DatabaseHelper;
 /**
  * 
  * @author andre
- *	In lucru, a se vedea linkul https://docs.google.com/document/d/1CLcEc31n6SWkSICaTTf-Yx2cT1cuyyuEyIf39j6duKA/edit?usp=sharing
+ *	A se vedea https://docs.google.com/document/d/1CLcEc31n6SWkSICaTTf-Yx2cT1cuyyuEyIf39j6duKA/edit?usp=sharing
  *
  */
-@DisplayName("Test cases for DatabaseHelper implementation of DatabaseManager")
+@DisplayName("Test cases for DatabaseHelper implementation of DatabaseManager interface")
 class DatabaseHelperTest {
 
 	static String testTableName = "test_table_name12345.txt";
 	static String[] testColumns = new String[] {"test_col1", "test_col2"};
 	static String rowSeparator = "\r\n";
+	static String columnSeparator = "-";
 	static DatabaseHelper dbh;
+	static int id;
 	
 	@BeforeAll
     static void initAll() {
@@ -60,49 +65,49 @@ class DatabaseHelperTest {
     }
 	
 	@Test
-	void testCreateTable_tableDidNotExistPreviously() {
-		//delete the file if it already exists
+	void testCreateTable__Should_CreateTableAndInsertTheColumnNames_When_TableDoesNotExist() {
+		//sterge tabelul daca exista deja
 		File file = new File(testTableName);
 		if(file.exists()) {
 			file.delete();
 		}
 		
-		//create the table
+		//creeaza tabelul
 		dbh.createTable(testTableName, testColumns);
 
 		file = new File(testTableName);
 		assertTrue(file.exists());
 
-		//add the column names
+		//insereaza numele coloanelor
 		StringBuilder sb = new StringBuilder();
 		for(String column: testColumns) {
-			sb.append(column).append("-");
+			sb.append(column).append(columnSeparator);
 		}
 		sb.append(rowSeparator);
 		String expectedResult = sb.toString();
 		String actualResult = readFile(testTableName);
 		
-		assertEquals(expectedResult, actualResult,  "createTable should make a new table and insert the column names");
+		assertEquals(expectedResult, actualResult,  "createTable ar trebui sa creeze un fisier nou si sa insereze numele coloanelor");
 	}
 
 	@Test
-	@DisplayName("Nu adaugam de doua ori numele coloanelor")
-	void testCreateTable_tableAlreadyExists() {
+	@DisplayName("Nu altera tabelul incercand sa il creezi a doua oara")
+	void testCreateTable__Should_DoNothing_When_TableAlreadyExist() {
 		String existingContent = readFile(testTableName);
-		//try to create again the same table, but we know it already exists
+		//incearca sa creeze tabelul, stim ca exista deja
 		dbh.createTable(testTableName, testColumns);
 		File file = new File(testTableName);
 		assertTrue(file.exists());
 
-		//verify the content to be as in the first table
+		//continutul tabelului existent ar trebui sa fie nealterat
 		String actualResult = readFile(testTableName);
-		assertEquals(existingContent, actualResult,  "createTable should not alter an existing table");
+		assertEquals(existingContent, actualResult,  "createTable ar trebui sa nu altereze un tabel cu acelasi nume deja existent");
 		
 		file.delete();
 	}
 	
 	@Test
-	void testInsertQuery_corectNumberOfColumns() {
+	void testInsertQuery__Should_InsertNewLineContainingTheValuesFromList_When_InputListSizeEqualsTableColumnsSize() {
 		String existingContent = readFile(testTableName);
 		
 		String[] toInsert = new String[] {"test_col1", "test_col2", "test_col3"};
@@ -116,47 +121,47 @@ class DatabaseHelperTest {
 		
 		String actualContent = readFile(testTableName);
 		
-		assertEquals(expectedContent, actualContent, "InsertQuery adds a new line with received values");
+		assertEquals(expectedContent, actualContent, "InsertQuery insereaza o noua inregistrare in fisier");
 	}
 	
 	@Test
-	void testInsertQuery_valuesLessThanColumns() {
-		String existingContent = readFile(testTableName);
-		
-		String[] toInsert = new String[] {"test_col3"};
-		dbh.insertQuery(testTableName, toInsert);
-		
-		String expectedContent = existingContent;
-		for(String cont: toInsert) {
-			expectedContent+= cont+"-";
-		}
-		expectedContent+=rowSeparator;
-		
-		String actualContent = readFile(testTableName);
-		
-		assertEquals(expectedContent, actualContent, "InsertQuery adds a new line when nr of received values is less then expected");
-	}
+    void testInsertQuery__Should_ThrowException_When_InputListSizeIsSmallerThanTableColumnsSize() {
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> {
+            //throw new IllegalArgumentException("a message");
+        	String[] toInsert = new String[] {"test_col3"};
+    		dbh.insertQuery(testTableName, toInsert);
+        });
+        assertEquals("Randul de inserat are MAI PUTINE valori decat se asteapta.", exception.getMessage());
+    }
 	
 	@Test
-	void testInsertQuery_valuesMoreThanColumns() {
-		String existingContent = readFile(testTableName);
+    void testInsertQuery__Should_ThrowException_When_InputListSizeIsBiggerThanTableColumnsSize() {
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> {
+        	String[] toInsert = new String[] {"test_col1", "test_col2", "test_col3", "test_col4", "test_col5"};
+    		dbh.insertQuery(testTableName, toInsert);
+        });
+        assertEquals("Randul de inserat are MAI MULTE valori decat se asteapta.", exception.getMessage());
+    }
+
+	@RepeatedTest(10)
+    void testInsertQuery__Should_Insert10Rows_When_InputListIsOK(RepetitionInfo repetitionInfo) {
+		id = repetitionInfo.getCurrentRepetition();
+		String[] columnsName = {"id"+id, "name"+id, "age"+id, ((id%2==0)?"yes":"no")};
+		dbh.insertQuery(testTableName, columnsName);
 		
-		String[] toInsert = new String[] {"test_col1", "test_col2", "test_col3", "test_col4", "test_col5"};
-		dbh.insertQuery(testTableName, toInsert);
-		
-		String expectedContent = existingContent;
-		for(String cont: toInsert) {
-			expectedContent+= cont+"-";
-		}
-		expectedContent+=rowSeparator;
-		
-		String actualContent = readFile(testTableName);
-		
-		assertEquals(expectedContent, actualContent, "InsertQuery adds a new line when nr of received values is less then expected");
-	}
+		String result = readFile(testTableName);
+		System.out.println();
+		assertAll(result,
+	            () -> assertTrue(result.contains("id"+id)),
+	            () -> assertTrue(result.contains("age"+id)),
+	            () -> assertTrue(result.contains("name"+id))
+	        );
+		int countRows = result.length() - result.replace(rowSeparator, "").length();
+        assertTrue(countRows>= id);
+    }
 
 	@Test
-	void testDeleteQuery_whereAge19_2Rows() {
+	void testDeleteQuery__Should_Delete2Rows_When_ageEquals19() {
 		String columnNames="id-name-age-isStudent-";
 		String row2 = "2-Mihai-20-yes-";
 		
@@ -170,7 +175,7 @@ class DatabaseHelperTest {
 	}
 
 	@Test
-	void testDeleteQuery_whereAge20_1Row() {
+	void testDeleteQuery__Should_Delete1Row_When_ageEquals20() {
 		String columnNames="id-name-age-isStudent-";
 		String row1 = "1-Ana-19-yes-";
 		String row3 = "3-Doru-19-no-";
@@ -186,7 +191,7 @@ class DatabaseHelperTest {
 	}
 	
 	@Test
-	void testDeleteQuery_columnValueDoesNotExist() {
+	void testDeleteQuery__Should_NotDeleteRows_When_noRowsHaveNameOana() {
 		String columnNames="id-name-age-isStudent-";
 		String row1 = "1-Ana-19-yes-";
 		String row2 = "2-Mihai-20-yes-";
@@ -206,18 +211,15 @@ class DatabaseHelperTest {
 	}
 	
 	@Test
-	void testDeleteQuery_columnNameDoesNotExist() {
-		String tableContent = readFile(testTableName);
-		
-		dbh.deleteQuery(testTableName, "knowsToDance", "Oana");
-		
-		String actualResult = readFile(testTableName);
-		
-		assertEquals(tableContent, actualResult);
-	}
+    void testDeleteQuery__Should_ThrowException_When_columnNameDoesNotExist() {
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> {
+        	dbh.deleteQuery(testTableName, "knowsToDance", "Oana");
+        });
+        assertEquals("Nu exista in tabel coloana indicata.", exception.getMessage());
+    }
 	
 	@Test
-	void testSelectQuery_normalTable() {
+	void testSelectQuery__Should_ReturnAllTheValues_When_TableExists() {
 		List<List<String>> actualResult = dbh.selectQuery(testTableName);
 		
 		List<List<String>> expectedResult = Arrays.asList(
@@ -226,11 +228,11 @@ class DatabaseHelperTest {
 				Arrays.asList("3", "Doru", "19", "no")
 				);
 		
-		assertEquals(actualResult, expectedResult, "SelectQuery should return all the values from the table");
+		assertEquals(actualResult, expectedResult, "SelectQuery ar trebui sa returneze toate valorile din tabel");
 	}
 	
 	@Test
-	void testSelectQuery_differentLengthRows() {
+	void testSelectQuery__Should_ReturnAllTheValues_When_TableHasDifferentRowLengths() {
 		String columnNames="id-name-age-isStudent-";
 		String row1 = "1-Ana-19-yes-Ana-";
 		String row2 = "2-Mihai--yes-";
@@ -250,11 +252,11 @@ class DatabaseHelperTest {
 				Arrays.asList("3", "null", "23")
 				);
 		
-		assertEquals(actualResult, expectedResult, "SelectQuery should return all the values from the table");
+		assertEquals(actualResult, expectedResult, "SelectQuery ar trebui sa returneze toate valorile din tabel");
 	}
 	
 	@Test
-	void testSelectWhereQuery_forIsStudentYes_1listContaining1rows() {
+	void testSelectWhereQuery__Should_ReturnIndicatedColumnValues_When_1RowSelected() {
 		String[] columnName = {"id", "name", "isStudent"};
 		ArrayList<String> actualResult = dbh.selectWhereQuery(testTableName, columnName, "id", "3");
 		
@@ -264,7 +266,7 @@ class DatabaseHelperTest {
 	}
 	
 	@Test
-	void testSelectWhereQuery_forIsStudentYes_1listContaining2rows() {
+	void testSelectWhereQuery__Should_ReturnIndicatedColumnValues_When_2RowsSelected() {
 		String[] columnName = {"id", "name", "isStudent"};
 		ArrayList<String> actualResult = dbh.selectWhereQuery(testTableName, columnName, "isStudent", "yes");
 		
@@ -274,7 +276,7 @@ class DatabaseHelperTest {
 	}
 	
 	@Test
-	void testSelectWhereQuery_forIsStudentWhat_emptyList() {
+	void testSelectWhereQuery__Should_ReturnEmptyList_When_NoRowsSelected() {
 		String[] columnName = {"id", "name", "isStudent"};
 		ArrayList<String> actualResult = dbh.selectWhereQuery(testTableName, columnName, "isStudent", "what?");
 		
@@ -283,9 +285,28 @@ class DatabaseHelperTest {
 		assertEquals(actualResult, expectedResult);
 	}
 	
-
 	@Test
-	void testUpdateQuery_setAge21whereAge20_1column() {
+    void testSelectWhereQuery__Should_ThrowException_When_SelectedColumnNameDoesNotExist() {
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> {
+        	String[] columnName = {"id", "cat", "isStudent"};
+    		dbh.selectWhereQuery(testTableName, columnName, "isStudent", "yes");
+    		
+        });
+        assertEquals("Tabelul nu contine coloana ceruta in extractie.", exception.getMessage());
+    }
+	
+	@Test
+    void testSelectWhereQuery__Should_ThrowException_When_SelectionColumnNameDoesNotExist() {
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> {
+        	String[] columnName = {"id", "age", "isStudent"};
+    		dbh.selectWhereQuery(testTableName, columnName, "adress", "iasi");
+    		
+        });
+        assertEquals("Tabelul nu contine coloana indicata pentru triere.", exception.getMessage());
+    }
+	
+	@Test
+	void testUpdateQuery__Should_Update1Column_When_1ColumnIndicated() {
 		String tableContent = readFile(testTableName);
 		String[] newColumnValue = {"2", "Mihai", "21", "yes"};
 		dbh.updateQuery(testTableName, "age", "20", newColumnValue);
