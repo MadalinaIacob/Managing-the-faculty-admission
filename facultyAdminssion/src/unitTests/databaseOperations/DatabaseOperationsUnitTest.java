@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import facultyAdminssion.DatabaseOperations;
@@ -20,7 +21,7 @@ class DatabaseOperationsUnitTest {
 	DatabaseOperations databaseOperations = new DatabaseOperations();
 
 	@BeforeAll
-	void setUp() throws Exception {
+	static void setUp() throws Exception {
 		s.setTxtStudentname("test test"); s.setTxtMariagestudentname("test");
 		s.setTxtBirthDay("21"); s.setTxtBirthMonth("04"); s.setTxtBirthyear("2000");
 		s.setTxtCnp("1930124347208");
@@ -83,7 +84,7 @@ class DatabaseOperationsUnitTest {
 	
 	@Test
 	void testSelectStudentT() {
-		String expectedResult = readFile("studentsB.txt");
+		String expectedResult = readFile("studentsT.txt");
 		ArrayList<List<String>> actualResult = databaseOperations.selectStudentsBT(0);
 		String result = null;
 		for(List<String> str : actualResult) {
