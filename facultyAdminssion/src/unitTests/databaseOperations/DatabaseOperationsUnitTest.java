@@ -74,34 +74,95 @@ class DatabaseOperationsUnitTest {
 	@Test
 	void testSelectStudentB() {
 		String expectedResult = readFile("studentsB.txt");
-		ArrayList<List<String>> actualResult = databaseOperations.selectStudentsBT(1);
-		String result = null;
-		for(List<String> str : actualResult) {
-			result = result + str;
+		ArrayList<List<String>> result = databaseOperations.selectStudentsBT(1);
+		StringBuilder sb = new StringBuilder();
+		for(List<String> row : result) {
+			for(String column : row) {
+				sb.append(column).append("-");
+			}
+			sb.append("\r\n");
 		}
-		assertEquals(expectedResult, result);
+		String actualResult = sb.toString();
+		assertEquals(expectedResult, actualResult);
 	}
 	
 	@Test
 	void testSelectStudentT() {
 		String expectedResult = readFile("studentsT.txt");
-		ArrayList<List<String>> actualResult = databaseOperations.selectStudentsBT(0);
-		String result = null;
-		for(List<String> str : actualResult) {
-			result = result + str;
+		ArrayList<List<String>> result = databaseOperations.selectStudentsBT(0);
+		StringBuilder sb = new StringBuilder();
+		for(List<String> row : result) {
+			for(String column : row) {
+				sb.append(column).append("-");
+			}
+			sb.append("\r\n");
 		}
-		assertEquals(expectedResult, result);
+		String actualResult = sb.toString();
+		assertEquals(expectedResult, actualResult);
 	}
 	
 	@Test
 	void testSelectStudentBT() {
 		String expectedResult = readFile("studentsB.txt");
-		ArrayList<List<String>> actualResult = databaseOperations.selectStudentsBT(2);
-		String result = null;
-		for(List<String> str : actualResult) {
-			result = result + str;
+		ArrayList<List<String>> result = databaseOperations.selectStudentsBT(2);
+		StringBuilder sb = new StringBuilder();
+		for(List<String> row : result) {
+			for(String column : row) {
+				sb.append(column).append("-");
+			}
+			sb.append("\r\n");
 		}
-		assertEquals(expectedResult, result);
+		String actualResult = sb.toString();
+		assertEquals(expectedResult, actualResult);
+	}
+	
+	@Test
+	void testSelectStudents() {
+		String expectedResult = readFile("students.txt");
+		ArrayList<List<String>> result = databaseOperations.selectStudents();
+		StringBuilder sb = new StringBuilder();
+		for(List<String> row : result) {
+			for(String column : row) {
+				sb.append(column).append("-");
+			}
+			sb.append("\r\n");
+		}
+		String actualResult = sb.toString();
+		assertEquals(expectedResult, actualResult);
+	}
+	
+	@Test 
+	void testUpdateStudent() {
+		String expectedResult = readFile("students.txt");
+		String st = s.getTxtStudentname()+"-"+
+					s.getTxtMariagestudentname()+"-"+
+				s.getTxtBirthDay()+"-"+
+					s.getTxtBirthMonth()+"-"+
+				s.getTxtBirthyear()+"-"+
+					s.getTxtCnp()+"-"+
+				s.getTxtBirthplace()+"-"+
+					s.getTxtBirthcity()+"-"+
+				s.getTxtBirthcountry()+"-"+
+					s.getTxtNationality()+"-"+
+				s.getTxtCitizenship()+"-"+
+					s.getTxtPlace()+"-"+
+				s.getTxtCity()+"-"+
+					s.getTxtStreet()+"-"+
+				s.getTxtEmail()+"-"+
+					s.getTxtPhone()+"-"+
+				s.getTxtFathername()+"-"+
+					s.getTxtMothername()+"-"+
+				s.getTxtOldfaculty()+"-"+
+					s.getTxtGradeexam()+"-"+
+				s.getTxtGradeinfo()+"-"+
+					s.getTxtGrademath()+"-"+
+				s.isMarried()+"-"+
+					s.isNotMarried()+"-"+
+				s.getTxtGradeadmExam();
+		expectedResult += st;
+		databaseOperations.updateStudent("nume","test","bla");
+		String actualResult = readFile("students.txt");
+		assertEquals(expectedResult, actualResult);
 	}
 	
 	public static String readFile(String fileName) {
