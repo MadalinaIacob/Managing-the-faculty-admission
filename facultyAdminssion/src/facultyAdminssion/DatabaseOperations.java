@@ -146,7 +146,7 @@ public class DatabaseOperations {
 	public static boolean deleteStudent(String cnp) {
 		System.out.println(cnp);
 		if(cnp!="") {
-			databaseHelper.deleteQuery(tableName, cnp, cnp);
+			databaseHelper.deleteQuery(tableName, "cnp", cnp);
 			return true;
 		}
 		return false;
