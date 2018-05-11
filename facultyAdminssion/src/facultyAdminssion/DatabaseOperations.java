@@ -19,7 +19,7 @@ public class DatabaseOperations {
 	
 	static String[] columns2 = {"nume", "medie"};
 	
-	static String tableName = "C:\\Users\\Cristina\\Desktop\\students.txt";
+	static String tableName = "students.txt";
 	static String tableB = "studentsB.txt";
 	static String tableT = "studentsT.txt";
 	static String tableR = "studentR.txt";
@@ -75,7 +75,7 @@ public class DatabaseOperations {
 
 	public static void updateStudent(String cnp, String colAct, String newVal) {
 		List<String> std = databaseHelper.selectWhereQuery(tableName, columns, "cnp", cnp);
-		 databaseHelper.updateQuery(tableName, "cnp","null","Maria","Maria","5");
+		 databaseHelper.updateQuery(tableName, "cnp", cnp, colAct, newVal);
 	}		
 	
 	public static boolean compute(String b, String t) {

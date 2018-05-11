@@ -242,6 +242,7 @@ public class DatabaseHelper implements DatabaseManager {
                         } else {
                             line = line + column + "-";
                         }
+                        line=line+column;
                     }
                     writer.write(line + System.getProperty("line.separator"));
                 } else {
