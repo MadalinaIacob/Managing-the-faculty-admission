@@ -19,7 +19,7 @@ public class DatabaseOperations {
 	
 	static String[] columns2 = {"nume", "medie"};
 	
-	static String tableName = "C:\\Users\\Cristina\\Desktop\\students.txt";
+	static String tableName = "D:\\madalina\\Facultate\\Master An 1\\Semestrul 2\\CSS\\Managing-the-faculty-admission\\facultyAdminssion\\students.txt";
 	static String tableB = "studentsB.txt";
 	static String tableT = "studentsT.txt";
 	static String tableR = "studentR.txt";

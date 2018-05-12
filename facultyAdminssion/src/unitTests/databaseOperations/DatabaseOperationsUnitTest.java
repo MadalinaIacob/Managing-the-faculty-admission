@@ -39,7 +39,9 @@ class DatabaseOperationsUnitTest {
 
 	@Test
 	void testInsertStudent() throws ParseException{
-		String expectedResult = readFile("students.txt");
+		String file = "D:\\madalina\\Facultate\\Master An 1\\Semestrul 2\\CSS\\Managing-the-faculty-admission\\facultyAdminssion\\students.txt";
+		String expectedResult = "nume-nume casatorie-data nasterii-cnp-adresa nastere-nationalitate-cetatenie-adresa actuala-email-telefon-numele tatalui-numele mamei-stare civila-nota bac-nota info-nota mate-nota examen-";
+		expectedResult = expectedResult + readFile(file);
 		String st = s.getTxtStudentname()+"-"+
 					s.getTxtMariagestudentname()+"-"+
 				s.getTxtBirthDay()+"-"+
@@ -65,15 +67,16 @@ class DatabaseOperationsUnitTest {
 				s.isMarried()+"-"+
 					s.isNotMarried()+"-"+
 				s.getTxtGradeadmExam();
-		expectedResult += st;
+		expectedResult = expectedResult + st;
 		databaseOperations.insertStudent(s);
-		String actualResult = readFile("students.txt");
+		String actualResult = readFile(file);
 		assertEquals(expectedResult, actualResult);
 	}
 	
 	@Test
 	void testSelectStudentB() {
-		String expectedResult = readFile("studentsB.txt");
+		String file = "D:\\madalina\\Facultate\\Master An 1\\Semestrul 2\\CSS\\Managing-the-faculty-admission\\facultyAdminssion\\studentsB.txt";
+		String expectedResult = readFile(file);
 		ArrayList<List<String>> result = databaseOperations.selectStudentsBT(1);
 		StringBuilder sb = new StringBuilder();
 		for(List<String> row : result) {
@@ -88,7 +91,8 @@ class DatabaseOperationsUnitTest {
 	
 	@Test
 	void testSelectStudentT() {
-		String expectedResult = readFile("studentsT.txt");
+		String file = "D:\\madalina\\Facultate\\Master An 1\\Semestrul 2\\CSS\\Managing-the-faculty-admission\\facultyAdminssion\\studentsT.txt";
+		String expectedResult = readFile(file);
 		ArrayList<List<String>> result = databaseOperations.selectStudentsBT(0);
 		StringBuilder sb = new StringBuilder();
 		for(List<String> row : result) {
@@ -103,7 +107,8 @@ class DatabaseOperationsUnitTest {
 	
 	@Test
 	void testSelectStudentBT() {
-		String expectedResult = readFile("studentsB.txt");
+		String file = "D:\\madalina\\Facultate\\Master An 1\\Semestrul 2\\CSS\\Managing-the-faculty-admission\\facultyAdminssion\\studentsB.txt";
+		String expectedResult = readFile(file);
 		ArrayList<List<String>> result = databaseOperations.selectStudentsBT(2);
 		StringBuilder sb = new StringBuilder();
 		for(List<String> row : result) {
@@ -118,7 +123,8 @@ class DatabaseOperationsUnitTest {
 	
 	@Test
 	void testSelectStudents() {
-		String expectedResult = readFile("students.txt");
+		String file = "D:\\madalina\\Facultate\\Master An 1\\Semestrul 2\\CSS\\Managing-the-faculty-admission\\facultyAdminssion\\students.txt";
+		String expectedResult = readFile(file);
 		ArrayList<List<String>> result = databaseOperations.selectStudents();
 		StringBuilder sb = new StringBuilder();
 		for(List<String> row : result) {
@@ -133,7 +139,8 @@ class DatabaseOperationsUnitTest {
 	
 	@Test 
 	void testUpdateStudent() {
-		String expectedResult = readFile("students.txt");
+		String file = "D:\\madalina\\Facultate\\Master An 1\\Semestrul 2\\CSS\\Managing-the-faculty-admission\\facultyAdminssion\\students.txt";
+		String expectedResult = readFile(file);
 		String st = s.getTxtStudentname()+"-"+
 					s.getTxtMariagestudentname()+"-"+
 				s.getTxtBirthDay()+"-"+
@@ -161,7 +168,7 @@ class DatabaseOperationsUnitTest {
 				s.getTxtGradeadmExam();
 		expectedResult += st;
 		databaseOperations.updateStudent("nume","test","bla");
-		String actualResult = readFile("students.txt");
+		String actualResult = readFile(file);
 		assertEquals(expectedResult, actualResult);
 	}
 	
