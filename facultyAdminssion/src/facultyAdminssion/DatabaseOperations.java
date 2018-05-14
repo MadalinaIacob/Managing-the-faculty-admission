@@ -75,7 +75,7 @@ public class DatabaseOperations {
 
 	public static void updateStudent(String cnp, String colAct, String newVal) {
 		List<String> std = databaseHelper.selectWhereQuery(tableName, columns, "cnp", cnp);
-		 databaseHelper.updateQuery(tableName, "cnp","null","Maria","Maria","5");
+		 databaseHelper.updateQuery(tableName, "cnp",cnp,colAct,newVal);
 	}		
 	
 	public static boolean compute(String b, String t) {
@@ -146,7 +146,7 @@ public class DatabaseOperations {
 	public static boolean deleteStudent(String cnp) {
 		System.out.println(cnp);
 		if(cnp!="") {
-			databaseHelper.deleteQuery(tableName, "cnp", cnp);
+			databaseHelper.deleteQuery(tableName, cnp, cnp);
 			return true;
 		}
 		return false;
