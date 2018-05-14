@@ -1,4 +1,4 @@
-package unitTests.facultyAdminssion;
+package unitTests.databaseOperations;
 
 import static org.junit.Assert.assertEquals;
 

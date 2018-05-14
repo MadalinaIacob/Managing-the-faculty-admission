@@ -65,9 +65,7 @@ class DatabaseOperationsUnitTest {
 				s.getTxtGradeinfo()+"-"+
 					s.getTxtGrademath()+"-"+
 				s.getTxtGradeadmExam()+"-\r\n").toString();
-		//System.out.println(st);
 		expectedResult = expectedResult+"\r\n"+st;
-		System.out.println(expectedResult);
 		databaseOperations.insertStudent(s);
 		String actualResult = readFile(file);
 		assertEquals(expectedResult, actualResult);
