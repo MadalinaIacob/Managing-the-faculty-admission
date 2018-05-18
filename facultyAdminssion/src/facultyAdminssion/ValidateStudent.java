@@ -38,10 +38,12 @@ public class ValidateStudent {
 	}
 	
 	static boolean validateName(String name) {
+		assert name!="" : name!=null; 
 		return name.matches("^[\\p{L} .'-]+$");		
 	}
 	
 	static boolean validateCNP(String cnp) {
+		assert cnp!="" : cnp!=null;
 		if(cnp.matches("[0-9]+")==false) {
 			return false;
 		}
@@ -70,6 +72,7 @@ public class ValidateStudent {
 	}
 
 	static boolean checkDate(String dt) throws ParseException {
+		assert dt!="" : dt!=null;
 		int year = Integer.parseInt(dt.split("/")[2]);
 		if(Calendar.getInstance().get(Calendar.YEAR) - year < 18) return false;
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -85,24 +88,29 @@ public class ValidateStudent {
 	}
 
 	static boolean checkString(String s) {
+		assert s!="";
 		if(s==null) return true;
 		return s.matches("^[a-zA-Z]+$");
 	}
 	
 	static boolean checkNumber(String nb) {
+		assert nb!="";
 		if(nb==null) return true;
 		return nb.matches("^[0-9]*$");
 	}
 	
 	static boolean checkEmail(String email) {
+		assert email!="" : email!=null;
 		return email.matches("^(.+)@(.+)$");
 	}
 	
 	static boolean checkPhoneNumber(String nb) {
+		assert nb!="" : nb!=null;
 		return nb.matches("^(07)[0-9]{8}$");
 	}
 
 	static boolean checkGrades(String grade) {
+		assert grade!="" : grade!=null;
 		return grade.matches("^(10.00)|([1-9]\\.[0-9]{2})$");
 	}
 	

@@ -20,6 +20,7 @@ public class DatabaseOperations {
 	static String[] columns2 = {"nume", "medie"};
 	
 	static String tableName = "students.txt";
+
 	static String tableB = "studentsB.txt";
 	static String tableT = "studentsT.txt";
 	static String tableR = "studentR.txt";

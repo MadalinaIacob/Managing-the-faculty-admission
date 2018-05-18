@@ -1,4 +1,4 @@
-package unitTests;
+package unitTests.databaseOperations;
 import static org.junit.Assert.assertEquals;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

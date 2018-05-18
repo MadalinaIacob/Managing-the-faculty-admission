@@ -1,4 +1,4 @@
-package unitTests;
+package unitTests.databaseOperations;
 
 import static org.junit.Assert.assertEquals;
 
@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import facultyAdminssion.Student;
 import facultyAdminssion.ValidateStudent;
 
-class ValidationTest {
+class ValidateStudentTest {
 	static Student s = new Student();
 	ValidateStudent validate = new ValidateStudent();
 
