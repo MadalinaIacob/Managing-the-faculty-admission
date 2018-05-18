@@ -90,6 +90,9 @@ public class InputAdmin {
 				Text txtTax = new Text(shell, SWT.BORDER);
 				txtTax.setBounds(500, 130, 150, 21);
 				
+				assert txtTax!=null && txtTax.getText() != "" 
+						&& txtBudget!=null && txtBudget.getText()!= "";
+				
 				Button btnCompute = new Button(shell, SWT.NONE);
 				btnCompute.setBounds(500, 200, 150, 21);
 				btnCompute.setText("Calculeaza");
@@ -108,6 +111,7 @@ public class InputAdmin {
 							style = SWT.OK;
 							msg = "Repartitia a fost realizata";
 						}
+						assert msg!=null || msg!="";
 						MessageBox messageBox = new MessageBox(shell, style);
 						messageBox.setMessage(msg);
 						int rc = messageBox.open();
@@ -217,6 +221,8 @@ public class InputAdmin {
 				Button btnActualizeaza = new Button(shell, SWT.NONE);
 				btnActualizeaza.setBounds(500, 200, 150, 21);
 				btnActualizeaza.setText("Sterge student");
+				
+				assert txtCnp!=null&&txtCnp.getText()!=null;
 				
 				btnActualizeaza.addSelectionListener(new SelectionAdapter() {
 					@Override

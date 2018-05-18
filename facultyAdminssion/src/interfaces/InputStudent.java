@@ -333,6 +333,7 @@ public class InputStudent {
 							DatabaseOperations.insertStudent(s);
 							msg = "Datele au fost memorate";
 						}
+						assert msg!="";
 						MessageBox messageBox = new MessageBox(shlInscriereFacultate, style);
 						messageBox.setMessage(msg);
 						int rc = messageBox.open();

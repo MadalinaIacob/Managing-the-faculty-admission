@@ -50,7 +50,9 @@ public class ValidateStudent {
 		if (cnp.length()>13 || cnp.length()<13) {
 			return false;
 		}
+		assert cnp.length()>13||cnp.length()<13;
 		String [] cnpNumbers = cnp.split("");
+		assert (Integer.parseInt(cnpNumbers[0]) !=1 || Integer.parseInt(cnpNumbers[0]) !=2);
 		int suma = Integer.parseInt(cnpNumbers[0])*2
 				+Integer.parseInt(cnpNumbers[1])*7
 				+Integer.parseInt(cnpNumbers[2])*9
@@ -65,7 +67,6 @@ public class ValidateStudent {
 				+Integer.parseInt(cnpNumbers[11])*9;
 		if (suma%11==10 && suma%11 == Integer.parseInt(cnpNumbers[12])) {
 			return true;
-			
 		}
 
 		return false;
@@ -75,6 +76,7 @@ public class ValidateStudent {
 		assert dt!="" : dt!=null;
 		int year = Integer.parseInt(dt.split("/")[2]);
 		if(Calendar.getInstance().get(Calendar.YEAR) - year < 18) return false;
+		assert Calendar.getInstance().get(Calendar.YEAR) - year > 18;
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		sdf.setLenient(false);
 		
@@ -90,12 +92,14 @@ public class ValidateStudent {
 	static boolean checkString(String s) {
 		assert s!="";
 		if(s==null) return true;
+		assert s!=null;
 		return s.matches("^[a-zA-Z]+$");
 	}
 	
 	static boolean checkNumber(String nb) {
 		assert nb!="";
 		if(nb==null) return true;
+		assert nb!=null;
 		return nb.matches("^[0-9]*$");
 	}
 	

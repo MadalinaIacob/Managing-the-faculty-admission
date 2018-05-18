@@ -86,6 +86,8 @@ public class DatabaseOperations {
 		budget = Integer.parseInt(b);
 		tax = Integer.parseInt(t);
 
+		assert budget>=0 : tax >=0;
+		
 		ArrayList<List<String>> std = databaseHelper.selectQuery(tableName);
 		List<String> result = new ArrayList<String>();
 		for(List<String> ss:std) {
