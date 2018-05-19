@@ -25,12 +25,13 @@ public class DatabaseHelper implements DatabaseManager {
     @Override
     public void createTable(String tableName, String... columnsName) {
     	System.out.println("table creation");
-
+    	assert tableName != "": tableName != null;
         FileWriter fw = null;
         String output = "";
         try {
             fw = new FileWriter(tableName, true);
             for (String columnName : columnsName) {
+            	assert columnName != "" : columnName != null;
                 output = output + columnName + "-";
             }
             fw.write(output);
@@ -49,6 +50,7 @@ public class DatabaseHelper implements DatabaseManager {
     @Override
     public void insertQuery(String tableName, String... columnsName) {
     	System.out.println("insert");
+    	assert tableName != "": tableName != null;
         FileWriter fw = null;
         String output = "";
         try {
@@ -59,6 +61,7 @@ public class DatabaseHelper implements DatabaseManager {
                 } else {
                     output = output + columnName + "-";
                 }
+            	assert columnName != "" : columnName != null;
             }
             fw.append(output);
             fw.append("\r\n");
@@ -75,12 +78,15 @@ public class DatabaseHelper implements DatabaseManager {
 
     @Override
     public void deleteQuery(String tableName, String columnName, String columnValue) {
+    	assert tableName != "": tableName != null;
+    	assert columnName != null;
+    	assert columnValue != null;
         BufferedReader br = null;
         BufferedWriter writer = null;
         String firstLine = null;
         File tempFile = new File("tempcopy.txt");
         File inputFile = new File(tableName);
-
+        
         int indexColumn = -1;
         boolean ok = false;
         try {
@@ -109,6 +115,7 @@ public class DatabaseHelper implements DatabaseManager {
                 } else {
                     writer.write(line + System.getProperty("line.separator"));
                 }
+                assert ok != false;
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -127,6 +134,7 @@ public class DatabaseHelper implements DatabaseManager {
     @Override
     public ArrayList<List<String>> selectQuery(String tableName)
     {
+    	assert tableName != "" : tableName != null;
     	ArrayList<List<String>> result = new ArrayList<>();
         BufferedReader br = null;
         try {
@@ -155,7 +163,10 @@ public class DatabaseHelper implements DatabaseManager {
 
     @Override
     public ArrayList<String> selectWhereQuery(String tableName, String[] columnName, String condition, String value) {
-        ArrayList<String> result = new ArrayList<>();
+    	assert tableName != "" : tableName != null;
+    	assert condition != "" : condition != null;
+    	assert value != "" : value != null;
+    	ArrayList<String> result = new ArrayList<>();
         BufferedReader br = null;
         String firstLine = null;
         List<Integer> indexColumn = new ArrayList<Integer>();
@@ -167,10 +178,12 @@ public class DatabaseHelper implements DatabaseManager {
             firstLine = br.readLine();
             String splitFirstLine[] = firstLine.split("-");
             for (int i = 0; i < splitFirstLine.length; i++) {
-            	for(String s:columnName)
-                if (splitFirstLine[i].equals(s)) {
-                    indexColumn.add(i);
-                }
+            	for(String s:columnName) {
+            		assert s != null;
+	                if (splitFirstLine[i].equals(s)) {
+	                    indexColumn.add(i);
+	                }
+            	}
             }
 
             for (int i = 0; i < splitFirstLine.length; i++) {
@@ -205,7 +218,10 @@ public class DatabaseHelper implements DatabaseManager {
 
     @Override
     public void updateQuery(String tableName, String columnName, String columnValue, String... columnsName) {
-        BufferedReader br = null;
+    	assert tableName != "": tableName != null;
+    	assert columnName != null;
+    	assert columnValue != null;
+    	BufferedReader br = null;
         BufferedWriter writer = null;
         String firstLine = null;
         File tempFile = new File("tempcopy.txt");
@@ -243,11 +259,13 @@ public class DatabaseHelper implements DatabaseManager {
                             line = line + column + "-";
                         }
                         line = line +columnValue ;
+                        assert column != "" : column != null;
                     }
                     writer.write(line + System.getProperty("line.separator"));
                 } else {
                     writer.write(line + System.getProperty("line.separator"));
                 }
+                assert ok != false;
             }
         } catch (IOException e) {
             e.printStackTrace();

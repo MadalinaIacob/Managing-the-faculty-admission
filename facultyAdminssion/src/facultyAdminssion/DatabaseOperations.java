@@ -27,6 +27,7 @@ public class DatabaseOperations {
 
 	
 	public static void insertStudent(Student s) {
+		assert s != null;
 		System.out.println("aici");
 		String[] std= {s.getTxtStudentname()
 						,s.getTxtMariagestudentname()
@@ -40,12 +41,19 @@ public class DatabaseOperations {
 						,s.getTxtFathername() ,s.getTxtMothername()
 						,s.isMarried()==true?"true":"false" ,s.getTxtOldfaculty()
 						,s.getTxtGradeexam() ,s.getTxtGradeinfo() ,s.getTxtGrademath(), s.getTxtGradeadmExam()};
-		
+		assert tableName != "" : tableName != null;
+		for (String c : columns) {
+			assert c != "" : c != null;
+		}
 		databaseHelper.createTable(tableName, columns);
+		for (String s : std) {
+			assert s != null;
+		}
 		databaseHelper.insertQuery(tableName, std);
 	} 
 
 	public static ArrayList<List<String>>selectStudentsBT(int tb) {
+		assert tb >= 0 : tb <= 2;
 		ArrayList<List<String>> std = new ArrayList<List<String>>();
 		if(tb==1)
 			 std = databaseHelper.selectQuery(tableB);
