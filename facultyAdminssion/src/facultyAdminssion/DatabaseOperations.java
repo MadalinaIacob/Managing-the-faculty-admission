@@ -46,8 +46,8 @@ public class DatabaseOperations {
 			assert c != "" : c != null;
 		}
 		databaseHelper.createTable(tableName, columns);
-		for (String s : std) {
-			assert s != null;
+		for (String stud : std) {
+			assert stud != null;
 		}
 		databaseHelper.insertQuery(tableName, std);
 	} 
